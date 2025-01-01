@@ -1,33 +1,36 @@
 import pandas as pd
 import os
+from sklearn.preprocessing import OneHotEncoder, StandardScaler, LabelEncoder
 
 # Define input and output paths
 input_path = "data/raw/banking_dataset.csv"
 output_path = "data/processed/processed_data.csv"
 
-# Ensure the input file exists
-if not os.path.exists(input_path):
-    raise FileNotFoundError(f"Input file not found at {input_path}")
 
-# Read the raw dataset
-df = pd.read_csv(input_path)
 
-# Preprocessing steps
-print("Initial DataFrame:")
-print(df.head())
 
-# 1. Remove rows with missing values
-df_cleaned = df.dropna()
+# Load dataset
+data = pd.read_csv(input_path)
 
-# 2. Select important columns for analysis
-columns_to_keep = ['age', 'job', 'balance', 'y']  # Keep only these columns
-df_cleaned = df_cleaned[columns_to_keep]
+# Drop irrelevant columns
+columns_to_drop = ["contact", "poutcome", "month", "day"]
+data = data.drop(columns=columns_to_drop)
 
-# 3. Encode target column (convert 'y' from yes/no to 1/0)
-df_cleaned['y'] = df_cleaned['y'].map({'yes': 1, 'no': 0})
+# Handle categorical data with OneHotEncoder
+categorical_cols = ["job", "marital", "education", "default", "housing", "loan"]
+data = pd.get_dummies(data, columns=categorical_cols, drop_first=True)
 
-# Save the processed dataset
-os.makedirs(os.path.dirname(output_path), exist_ok=True)
-df_cleaned.to_csv(output_path, index=False)
+# Normalize numerical features
+numerical_cols = ["age", "balance", "duration", "campaign", "pdays", "previous"]
+scaler = StandardScaler()
+data[numerical_cols] = scaler.fit_transform(data[numerical_cols])
 
-print(f"Processed data saved to {output_path}")
+# Encode the target column
+label_encoder = LabelEncoder()
+data["y"] = label_encoder.fit_transform(data["y"])  # 'yes' -> 1, 'no' -> 0
+
+# Save preprocessed data to a new CSV file
+data.to_csv(output_path, index=False)
+
+print("Preprocessing complete. Preprocessed dataset saved to 'preprocessed_banking_dataset.csv'.")
+
