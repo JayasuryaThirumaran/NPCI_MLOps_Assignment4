@@ -25,7 +25,7 @@ DVC is already installed in your Codespace. Initialize DVC for the project.
 - Push the raw data to remote storage
 - Tag this version of raw data as version 1.
 
-### **5.Get the preprocesing data and track it **
+### **5.Get the preprocesing data and track it**
 - Pull the raw data from remote storage.
 - Run the preprocessing.py script to generate processed data from raw data.
 - Track the processed data with DVC (follow the same procedure) 
