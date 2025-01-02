@@ -25,12 +25,13 @@ DVC is already installed in your Codespace. Initialize DVC for the project.
 - Push the raw data to remote storage
 - Tag this version of raw data as version 1.
 
-### **5.Get the preprocesing data and track it**
+### **5.Get the preprocessing data and track it**
 - Pull the raw data from remote storage.
 - Run the preprocessing.py script to generate processed data from raw data.
 - Track the processed data with DVC (follow the same procedure) 
 - Tag this version of processed data as version 2.
 
 ## Notes
-- Drive Authentication: Ensure DVC is authenticated with Google Drive (dvc-gdrive is installed by default in this project).
+- link for the dataset used in this assignment : https://archive.ics.uci.edu/dataset/222/bank+marketing
+- Drive Authentication: Ensure DVC is authenticated with Google Drive (DVC-gdrive is installed by default in this project).
 - Use dvc status to check the tracking status of your files.
